@@ -7,12 +7,14 @@ export const SITE_CONFIG = {
     "Empoche jusqu'à 550€ en parrainage banque & crypto avec Affileo. Parcours snipé, conditions préférentielles, on t'accompagne en DM Insta.",
   url: "https://affileo.fr",
   email: "contact@affileo.fr",
-  instagramHandle: process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE || "affileo.io",
+  // Handle Insta HARDCODÉ pour éviter tout override accidentel via env var.
+  instagramHandle: "affileo.io",
   metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
 };
 
 // Lien direct vers la messagerie Insta avec ref param.
-// Le ref param peut être détecté par ManyChat pour déclencher un Welcome auto.
+// `?ref=site_cta` permet à ManyChat de déclencher un message d'accueil automatique
+// (à configurer côté ManyChat → Settings → Refs → ajouter "site_cta" → flow Welcome).
 export const INSTAGRAM_DM_URL = `https://ig.me/m/${SITE_CONFIG.instagramHandle}?ref=site_cta`;
 
 export const NAV_LINKS = [
