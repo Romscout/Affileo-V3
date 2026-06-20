@@ -1,6 +1,7 @@
 "use client";
 
-import { INSTAGRAM_DM_URL } from "@/lib/config";
+import { usePathname } from "next/navigation";
+import { SITE_CONFIG } from "@/lib/config";
 import { trackEvent } from "./MetaPixel";
 
 type Props = {
@@ -16,6 +17,12 @@ export function CTAInsta({
   className = "",
   trackingLabel = "default",
 }: Props) {
+  const pathname = usePathname() || "";
+  const ref = pathname.startsWith("/go/")
+    ? pathname.slice(4).split("/")[0]
+    : "site_cta";
+  const href = `https://ig.me/m/${SITE_CONFIG.instagramHandle}?ref=${encodeURIComponent(ref)}`;
+
   const baseClasses =
     "inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 font-medium transition-all duration-200 select-none";
 
@@ -32,7 +39,7 @@ export function CTAInsta({
 
   return (
     <a
-      href={INSTAGRAM_DM_URL}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       onClick={handleClick}
