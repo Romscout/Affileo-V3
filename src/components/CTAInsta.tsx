@@ -11,16 +11,30 @@ type Props = {
   trackingLabel?: string;
 };
 
+// Pages du site qui ne sont PAS des codes influenceurs.
+const RESERVED = [
+  "offres",
+  "faq",
+  "contact",
+  "influenceurs",
+  "comment-ca-marche",
+  "mentions-legales",
+];
+
 export function CTAInsta({
   label = "Je me lance",
   variant = "primary",
   className = "",
   trackingLabel = "default",
 }: Props) {
+  // Code influenceur lu depuis l'URL :
+  //  - /go/<code>  (ancien format)
+  //  - /<code>     (format court, ex: /cha, /menzo)
+  // Sinon "site_cta".
   const pathname = usePathname() || "";
-  const ref = pathname.startsWith("/go/")
-    ? pathname.slice(4).split("/")[0]
-    : "site_cta";
+  const parts = pathname.split("/").filter(Boolean);
+  const seg = parts[0] === "go" ? parts[1] || "" : parts[0] || "";
+  const ref = !seg || RESERVED.includes(seg) ? "site_cta" : seg;
   const href = `https://ig.me/m/${SITE_CONFIG.instagramHandle}?ref=${encodeURIComponent(ref)}`;
 
   const baseClasses =
